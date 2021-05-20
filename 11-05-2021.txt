@@ -1,0 +1,94 @@
+//creation of a table
+create table hotel(id integer,food text ,rate float);
+//values inserted into it
+insert into hotel values(1,'chicken',150);
+insert into hotel values(2,'chicken tandoori',180.0);
+insert into hotel values(3,'chicken biryani', 160.0);
+insert into hotel values(4,'butter panner',170.0);
+insert into hotel values(5,'mutton',250.0);
+//adding foodtype and place
+alter table hotel add foodtype text;
+alter table hotel add place text;
+//update foodtype and place colums
+update hotel set foodtype='veg spec',place='rajasthan' where id='1';
+update hotel set foodtype='tandoori spec',place=' hyd' where id='2';
+update hotel set foodtype='biryani spec',place='chen'' where id='3';
+update hotel set foodtype='butter panner',place='andhra' where id='4';
+update hotel set foodtype='mutton',place='andhra' where id='5';
+
+//creating another table-->table 2
+create table hotel_bkp as select * from hotel
+//insering values unto table 2
+insert into food_master (id,name) values ('100-1','veg');
+insert into food_master (id,name) values ('100-2','Non-veg');
+insert into food_master (id,name) values ('100-3','Nons');
+//sub queries
+1)SELECT * FROM HOTEL WHERE FOOD IN (
+SELECT FOOD FROM HOTEL GROUP BY FOOD HAVING COUNT(1)>1
+)
+=======================================
+2)
+SELECT * FROM (
+SELECT *,ROW_NUMBER()oVER(PARTITION BY FOOD ORDER BY FOOD) RN FROM HOTEL
+) M WHERE RN>1
+=======================================
+3)
+ SELECT FOOD,NAME FROM HOTEL HT INNER JOIN FOOD_MASTER FM ON FM.ID=HT.MASTER_ID WHERE RATE>(SELECT MIN(RATE) FROM HOTEL)
+AND FM.NAME='VEG'
+======================================= 
+4)SELECT * FROM HOTEL HT INNER JOIN FOOD_MASTER FM ON FM.ID=HT.MASTER_ID WHERE RATE>(SELECT MIN(RATE) FROM HOTEL)
+AND FM.NAME='Non-veg'
+======================================== 
+5)SELECT name,food,rate FROM HOTEL HT INNER JOIN FOOD_MASTER FM ON FM.ID=HT.MASTER_ID
+WHERE
+RATE<=100
+============================================
+6)SELECT name,food,rate FROM HOTEL HT INNER JOIN FOOD_MASTER FM ON FM.ID=HT.MASTER_ID
+WHERE
+RATE<=300
+==========================================================
+7)SELECT name,food,rate FROM HOTEL HT INNER JOIN FOOD_MASTER FM ON FM.ID=HT.MASTER_ID
+WHERE
+RATE<=500
+=================================================================================
+8)SELECT name,food,rate FROM HOTEL HT INNER JOIN FOOD_MASTER FM ON FM.ID=HT.MASTER_ID
+WHERE
+FOOD LIKE '%CHICK%'
+==================================================================
+9)SELECT name,food,rate FROM HOTEL HT INNER JOIN FOOD_MASTER FM ON FM.ID=HT.MASTER_ID
+WHERE
+FOOD NOT LIKE '%CHICK%
+====================================================================
+10)SELECT * FROM HOTEL WHERE RATE=(SELECT MAX(RATE) FROM HOTEL)
+
+============================================================================================
+joins
+//create food master table
+create table food_master
+(
+id int,
+name text
+)
+//inserting values into it
+insert into food_master (id,name) values ('100-1','veg');
+insert into food_master (id,name) values ('100-2','Non-veg');
+insert into food_master (id,name) values ('100-3','Nons');
+//alter table hotel add master_id int;
+//updating values of hotel(tab 1)
+UPDATE HOTEL SET MASTER_ID='100-2' WHERE FOOD like '%CHICKEN%';
+UPDATE HOTEL SET MASTER_ID='100-3' WHERE FOOD='butter panner' AND MASTER_ID IS NULL
+UPDATE HOTEL SET MASTER_ID='100-2' WHERE FOOD='MUTTON' AND MASTER_ID IS NULL
+//inner join
+SELECT fm.name,ht.food,ht.rate FROM FOOD_MASTER FM INNER JOIN HOTEL HT ON FM.id=HT.MASTER_ID
+// outer join
+SELECT fm.name,ht.food,ht.rate FROM FOOD_MASTER FM LEFT OUTER JOIN HOTEL HT ON FM.id=HT.MASTER_ID
+//right outer join
+ SELECT fm.name,ht.food FOOD,ht.rate rate FROM FOOD_MASTER FM RIGHT OUTER JOIN HOTEL HT ON FM.id=HT.MASTER_ID
+//full outer join
+SELECT fm.name,ht.food FOOD,ht.rate rate FROM FOOD_MASTER FM FULL OUTER JOIN HOTEL HT ON FM.id=HT.MASTER_ID
+ 
+ 
+
+
+
+ 

@@ -1,0 +1,44 @@
+public class SwitchExpression {
+
+    public static void main(String[] args) {
+        System.out.print("Enter a domain:");
+
+        Scanner sc = new Scanner(System.in);
+        String domain = sc.nextLine();
+
+        domain = domain.trim().toLowerCase();
+
+        switch (domain) {
+
+            case "us" -> System.out.println("United States");
+            case "de" -> System.out.println("Germany");
+            case "sk" -> System.out.println("Slovakia");
+            case "hu" -> System.out.println("Hungary");
+            default -> System.out.println("Unknown");
+        }
+    }
+}
+
+
+import java.util.Random;
+
+public class BreakStatement {
+
+    public static void main(String[] args) {
+
+        Random random = new Random();
+
+        while (true) {
+
+            int num = random.nextInt(30);
+            System.out.print(num + " ");
+
+            if (num == 22) {
+
+                break;
+            }
+        }
+
+        System.out.print('\n');
+    }
+}
